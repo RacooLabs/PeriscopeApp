@@ -323,7 +323,8 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
 
     void zoomIn(){
         Camera.Parameters parameters = mCamera.getParameters();
-        zoomSize += 10;
+
+        zoomSize += parameters.getMaxZoom()/5;
 
         if(parameters.getMaxZoom() < zoomSize) {
             zoomSize = parameters.getMaxZoom();
@@ -335,7 +336,7 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
 
     void zoomOut(){
         Camera.Parameters parameters = mCamera.getParameters();
-        zoomSize -= 10;
+        zoomSize -= parameters.getMaxZoom()/5;
 
         if(0 > zoomSize) {
             zoomSize = 0;
@@ -343,6 +344,15 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
 
         parameters.set("zoom", zoomSize);
         mCamera.setParameters(parameters);
+    }
+
+    void setAutoFocus(){
+        mCamera.autoFocus(new Camera.AutoFocusCallback(){ // 오토 포커스 설정
+            @Override
+            public void onAutoFocus(boolean success, Camera camera) {
+                return;
+            }
+        });
     }
 
     private void delayedFinish() {

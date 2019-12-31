@@ -8,15 +8,15 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
+    <View
         android:id="@+id/Button_flash"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/camera_preview_main"
         app:layout_constraintRight_toLeftOf="@id/View_zoom"
-
+        android:background="@drawable/default_flash"
         />
 
     <View
@@ -26,30 +26,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/camera_preview_main"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/Button_flash"/>
+        app:layout_constraintLeft_toRightOf="@id/Button_flash" />
 
-    <Button
+    <View
         android:id="@+id/Button_zoomIn"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         app:layout_constraintTop_toTopOf="@+id/View_zoom"
         app:layout_constraintBottom_toTopOf="@+id/Button_zoomOut"
         app:layout_constraintLeft_toLeftOf="@+id/View_zoom"
         app:layout_constraintRight_toRightOf="@+id/View_zoom"
         app:layout_constraintVertical_chainStyle="packed"
+        android:background="@drawable/btn_background_zoomin"
         />
 
-    <Button
+    <View
         android:id="@+id/Button_zoomOut"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         app:layout_constraintTop_toBottomOf="@id/Button_zoomIn"
         app:layout_constraintBottom_toBottomOf="@+id/View_zoom"
         app:layout_constraintLeft_toLeftOf="@+id/View_zoom"
         app:layout_constraintRight_toRightOf="@+id/View_zoom"
-
-
+        android:background="@drawable/btn_background_zoomout"
         app:layout_constraintVertical_chainStyle="packed"
+
         />
 
     <SurfaceView

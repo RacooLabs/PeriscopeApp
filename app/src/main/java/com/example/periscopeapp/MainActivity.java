@@ -34,17 +34,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     // (참고로 Toast에서는 Context가 필요했습니다.)
 
 
-    private Button mImageButtonFlashOnOff;
-    private Button Button_zoomIn;
-    private Button Button_zoomOut;
+    private View mImageButtonFlashOnOff;
+    private View Button_zoomIn;
+    private View Button_zoomOut;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mImageButtonFlashOnOff = findViewById(R.id.Button_flash);
-        Button_zoomIn = findViewById(R.id.Button_zoomIn);
-        Button_zoomOut = findViewById(R.id.Button_zoomOut);
+
 
         // 상태바를 안보이도록 합니다.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -64,27 +63,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             return;
         }
 
-
-        mImageButtonFlashOnOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCameraPreview.flashlight();
-            }
-        });
-
+        bindingAndsetButton();
+        setAutoFocus();
 
 
         // 런타임 퍼미션 완료될때 까지 화면에서 보이지 않게 해야합니다.
         surfaceView.setVisibility(View.GONE);
 
-//        Button button = findViewById(R.id.button_main_capture);
-//        button.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                mCameraPreview.takePicture();
-//            }
-//        });
 
 
         if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
@@ -99,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             } else {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])) {
 
-                    Snackbar.make(mLayout, "이 앱을 실행하려면 카메라와 외부 저장소 접근 권한이 필요합니다.",
+                    Snackbar.make(mLayout, "이 앱을 실행하려면 카메라 권한이 필요합니다.",
                             Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
 
                         @Override
@@ -107,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
                             ActivityCompat.requestPermissions(MainActivity.this, REQUIRED_PERMISSIONS,
                                     PERMISSIONS_REQUEST_CODE);
+
                         }
                     }).show();
 
@@ -135,6 +121,53 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     }
 
+    void bindingAndsetButton(){
+        mImageButtonFlashOnOff = findViewById(R.id.Button_flash);
+        Button_zoomIn = findViewById(R.id.Button_zoomIn);
+        Button_zoomOut = findViewById(R.id.Button_zoomOut);
+
+        mImageButtonFlashOnOff.setClickable(true);
+        Button_zoomIn.setClickable(true);
+        Button_zoomOut.setClickable(true);
+
+
+        mImageButtonFlashOnOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCameraPreview.flashlight();
+            }
+        });
+
+        Button_zoomIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCameraPreview.zoomIn();
+            }
+        });
+
+        Button_zoomOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCameraPreview.zoomOut();
+            }
+        });
+    }
+
+    void  setAutoFocus() {
+
+        surfaceView.setOnClickListener(new View.OnClickListener() { // 레이아웃 클릭 이벤트
+            @Override
+            public void onClick(View v) {
+
+                mCameraPreview.setAutoFocus();
+
+            }
+        });
+
+    }
+
+
+
     private void delayedFinish() {
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -143,8 +176,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
         }, 3000);
     }
-
-
 
 
 
@@ -172,7 +203,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
 
             if ( check_result ) {
-
                 startCamera();
             }
             else {
