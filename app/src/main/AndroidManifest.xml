@@ -16,6 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-7972968096388401~9522318336"/>
+
 
         <activity android:name=".LaunchActivity"
             android:configChanges="screenSize|orientation"
@@ -33,5 +37,7 @@
 
         </activity>
     </application>
+
+
 
 </manifest>

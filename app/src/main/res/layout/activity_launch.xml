@@ -3,6 +3,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#333333">
+
+    <ImageView
+        android:id="@+id/ImageView_appicon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@null"
+        android:src="@drawable/periscope_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/TextView_appname"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        />
+
+    <TextView
+        android:id="@+id/TextView_appname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Periscope"
+        app:layout_constraintTop_toBottomOf="@+id/ImageView_appicon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/View_blank"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        />
+
+    <View
+        android:id="@+id/View_blank"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        app:layout_constraintTop_toBottomOf="@id/TextView_appname"
+        app:layout_constraintBottom_toTopOf="@id/TextView_racoolabs"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/TextView_racoolabs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RACOO LABS"
+        app:layout_constraintTop_toBottomOf="@+id/View_blank"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

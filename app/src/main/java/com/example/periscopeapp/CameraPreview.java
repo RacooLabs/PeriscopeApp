@@ -1,6 +1,6 @@
 package com.example.periscopeapp;
 
-import android.content.pm.PackageManager;
+
 import android.os.Handler;
 import android.view.SurfaceHolder;
 import android.view.ViewGroup;
@@ -19,8 +19,6 @@ import android.view.Surface;
 
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -43,6 +41,8 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
     private boolean mFlashOn;
     private boolean isopenCamera;
     private int zoomSize = 0;
+
+
 
 
 
@@ -298,7 +298,7 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
     }
 
 
-    void flashlight() {
+    boolean flashlight() {
         if (isopenCamera) {
 
             mFlashOn = !mFlashOn;
@@ -310,14 +310,20 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
 
                 mCamera.setParameters(params);
 
+                return true;
+
             } else {
 
                 params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 
                 mCamera.setParameters(params);
+
+                return false;
+
             }
         } else {
             delayedFinish();
+            return false;
         }
     }
 

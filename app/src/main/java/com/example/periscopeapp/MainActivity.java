@@ -14,10 +14,12 @@ import android.os.Handler;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.ImageView;
 
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
@@ -37,7 +39,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private View mImageButtonFlashOnOff;
     private View Button_zoomIn;
     private View Button_zoomOut;
-
+    private ImageView ImageView_highlight;
+    private boolean mFlashOn;
+    public AdView mAdView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(this, "ca-app-pub-7972968096388401~9522318336");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         mLayout = findViewById(R.id.layout_main);
         surfaceView = findViewById(R.id.camera_preview_main);
@@ -125,16 +134,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         mImageButtonFlashOnOff = findViewById(R.id.Button_flash);
         Button_zoomIn = findViewById(R.id.Button_zoomIn);
         Button_zoomOut = findViewById(R.id.Button_zoomOut);
+        ImageView_highlight = findViewById(R.id.ImageView_highlight);
 
         mImageButtonFlashOnOff.setClickable(true);
         Button_zoomIn.setClickable(true);
         Button_zoomOut.setClickable(true);
 
-
         mImageButtonFlashOnOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCameraPreview.flashlight();
+                mFlashOn = mCameraPreview.flashlight();
+                ImageView_highlight.setImageResource(mFlashOn ? R.drawable.round_highlighton_white_48dp: R.drawable.round_highlightoff_white_48dp);
             }
         });
 

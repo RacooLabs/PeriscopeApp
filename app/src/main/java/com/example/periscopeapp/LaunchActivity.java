@@ -6,7 +6,6 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.hardware.Camera;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
@@ -14,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
+import android.os.Handler;
 
 public class LaunchActivity extends AppCompatActivity {
 
@@ -29,9 +29,21 @@ public class LaunchActivity extends AppCompatActivity {
                 //퍼미션 허가 안되어있다면 사용자에게 요청
                 requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST_CODE);
             }else{
-                Intent mainIntent = new Intent(LaunchActivity.this, MainActivity.class);
-                startActivity(mainIntent);
-                finish();
+//                Intent mainIntent = new Intent(LaunchActivity.this, MainActivity.class);
+//                startActivity(mainIntent);
+//                finish();
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
+                        startActivity(mainIntent);
+                        finish();
+                    }
+                }, 1000);
+
+
             }
         }
 
