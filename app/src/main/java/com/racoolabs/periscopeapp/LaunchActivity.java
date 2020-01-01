@@ -1,4 +1,4 @@
-package com.example.periscopeapp;
+package com.racoolabs.periscopeapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
@@ -89,7 +89,7 @@ public class LaunchActivity extends AppCompatActivity {
                             == PackageManager.PERMISSION_GRANTED;
 
                     if (!cameraPermissionAccepted)
-                        showDialogForPermission("앱을 실행하려면 퍼미션을 허가하셔야합니다.");
+                        showDialogForPermission("You must authorize the function to run the app.");
                     else
                     {
                         Intent mainIntent = new Intent(LaunchActivity.this, MainActivity.class);
@@ -106,15 +106,15 @@ public class LaunchActivity extends AppCompatActivity {
     private void showDialogForPermission(String msg) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder( LaunchActivity.this);
-        builder.setTitle("알림");
+        builder.setTitle("Notification");
         builder.setMessage(msg);
         builder.setCancelable(false);
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id){
                 requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST_CODE);
             }
         });
-        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 finish();
             }

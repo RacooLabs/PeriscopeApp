@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.periscopeapp">
+    package="com.racoolabs.periscopeapp">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -21,7 +21,7 @@
             android:value="ca-app-pub-7972968096388401~9522318336"/>
 
 
-        <activity android:name=".LaunchActivity"
+        <activity android:name="com.racoolabs.periscopeapp.LaunchActivity"
             android:configChanges="screenSize|orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity"
+        <activity android:name="com.racoolabs.periscopeapp.MainActivity"
             android:configChanges="screenSize|orientation"
             android:screenOrientation="portrait">
 

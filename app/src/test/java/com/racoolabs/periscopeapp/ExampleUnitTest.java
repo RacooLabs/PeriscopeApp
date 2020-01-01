@@ -1,4 +1,4 @@
-package com.example.periscopeapp;
+package com.racoolabs.periscopeapp;
 
 import org.junit.Test;
 

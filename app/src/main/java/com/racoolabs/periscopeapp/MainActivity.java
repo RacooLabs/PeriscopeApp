@@ -1,4 +1,4 @@
-package com.example.periscopeapp;
+package com.racoolabs.periscopeapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             } else {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])) {
 
-                    Snackbar.make(mLayout, "이 앱을 실행하려면 카메라 권한이 필요합니다.",
-                            Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
+                    Snackbar.make(mLayout, "Camera permission are required to run this app.",
+                            Snackbar.LENGTH_INDEFINITE).setAction("Yes", new View.OnClickListener() {
 
                         @Override
                         public void onClick(View view) {
@@ -117,9 +117,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         } else {
 
-            final Snackbar snackbar = Snackbar.make(mLayout, "디바이스가 카메라를 지원하지 않습니다.",
+            final Snackbar snackbar = Snackbar.make(mLayout, "The device does not support the camera.",
                     Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction("확인", new View.OnClickListener() {
+            snackbar.setAction("Yes", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     snackbar.dismiss();
@@ -219,8 +219,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])) {
 
-                    Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요. ",
-                            Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
+                    Snackbar.make(mLayout, "Permission denied. Please run the app again to allow the performance. ",
+                            Snackbar.LENGTH_INDEFINITE).setAction("Yes", new View.OnClickListener() {
 
                         @Override
                         public void onClick(View view) {
@@ -231,8 +231,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
                 }else {
 
-                    Snackbar.make(mLayout, "설정(앱 정보)에서 퍼미션을 허용해야 합니다. ",
-                            Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
+                    Snackbar.make(mLayout, "The setting  must allow the operation. ",
+                            Snackbar.LENGTH_INDEFINITE).setAction("Yes", new View.OnClickListener() {
 
                         @Override
                         public void onClick(View view) {
