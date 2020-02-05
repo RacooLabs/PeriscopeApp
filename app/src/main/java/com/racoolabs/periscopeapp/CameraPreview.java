@@ -20,6 +20,7 @@ import android.view.Surface;
 import android.view.SurfaceView;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 
 public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
@@ -41,6 +42,7 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
     private boolean mFlashOn;
     private boolean isopenCamera;
     private int zoomSize = 0;
+
 
 
 

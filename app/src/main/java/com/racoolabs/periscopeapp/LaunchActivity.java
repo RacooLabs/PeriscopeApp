@@ -10,6 +10,7 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
@@ -20,6 +21,9 @@ public class LaunchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
         setContentView(R.layout.activity_launch);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //기기의 sdk버전 이 M 즉, 마시멜로보다 높습니까? 마시멜로는 6.0
