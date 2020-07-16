@@ -24,7 +24,7 @@ public class LaunchActivity extends AppCompatActivity {
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-        setContentView(R.layout.activity_launch);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //기기의 sdk버전 이 M 즉, 마시멜로보다 높습니까? 마시멜로는 6.0
             //퍼미션 상태 확인

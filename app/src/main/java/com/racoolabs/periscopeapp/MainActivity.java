@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +24,10 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.snackbar.Snackbar;
 
+
+
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+
 
 
     private static final String TAG = "android_camera_example";
@@ -44,9 +48,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private boolean mFlashOn;
     public AdView mAdView;
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
 
 
 
@@ -59,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
         setContentView(R.layout.activity_main);
 
         MobileAds.initialize(this, "ca-app-pub-7972968096388401~9522318336");
