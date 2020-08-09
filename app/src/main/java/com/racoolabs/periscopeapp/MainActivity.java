@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
@@ -80,10 +81,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         mLayout = findViewById(R.id.layout_main);
         surfaceView = findViewById(R.id.camera_preview_main);
 
-        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
-            //disable flash button
-            return;
-        }
+
 
         bindingAndsetButton();
         setAutoFocus();
@@ -149,22 +147,35 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Button_zoomOut = findViewById(R.id.Button_zoomOut);
         ImageView_highlight = findViewById(R.id.ImageView_highlight);
 
-        mImageButtonFlashOnOff.setClickable(true);
+
+
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+            mImageButtonFlashOnOff.setClickable(false);
+            Log.d("@@@","no flash");
+        } else {
+            mImageButtonFlashOnOff.setClickable(true);
+
+            mImageButtonFlashOnOff.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mFlashOn = mCameraPreview.flashlight();
+                    ImageView_highlight.setImageResource(mFlashOn ? R.drawable.round_highlighton_white_48dp: R.drawable.round_highlightoff_white_48dp);
+                }
+            });
+
+            Log.d("@@@","flash did");
+        }
+
         Button_zoomIn.setClickable(true);
         Button_zoomOut.setClickable(true);
 
-        mImageButtonFlashOnOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFlashOn = mCameraPreview.flashlight();
-                ImageView_highlight.setImageResource(mFlashOn ? R.drawable.round_highlighton_white_48dp: R.drawable.round_highlightoff_white_48dp);
-            }
-        });
+
 
         Button_zoomIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mCameraPreview.zoomIn();
+
             }
         });
 

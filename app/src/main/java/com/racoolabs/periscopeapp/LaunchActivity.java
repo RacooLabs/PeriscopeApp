@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 public class LaunchActivity extends AppCompatActivity {
 
@@ -37,6 +38,7 @@ public class LaunchActivity extends AppCompatActivity {
 //                startActivity(mainIntent);
 //                finish();
 
+
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -49,6 +51,8 @@ public class LaunchActivity extends AppCompatActivity {
 
 
             }
+
+
         }
 
     }

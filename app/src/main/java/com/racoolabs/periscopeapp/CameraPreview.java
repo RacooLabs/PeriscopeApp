@@ -50,6 +50,7 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
 
 
 
+
     public CameraPreview(Context context, AppCompatActivity activity, int cameraID, SurfaceView surfaceView) {
         super(context);
 
@@ -128,7 +129,7 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
 
         // Open an instance of the camera
         try {
-            mCamera = Camera.open(mCameraID);
+            mCamera = Camera.open();
             isopenCamera = true;// attempt to get a Camera instance
         } catch (Exception e) {
             // Camera is not available (in use or does not exist)
@@ -154,6 +155,10 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
 
         // get Camera parameters
         Camera.Parameters params = mCamera.getParameters();
+
+        List<Camera.Size> sizes = params.getSupportedPreviewSizes();
+        Camera.Size optimalSize = getOptimalPreviewSize(sizes, getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels);
+        params.setPreviewSize(optimalSize.width, optimalSize.height);
 
         List<String> focusModes = params.getSupportedFocusModes();
         if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
@@ -252,6 +257,7 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
             Log.d(TAG, "Error starting camera preview: " + e.getMessage());
         }
 
+
         int orientation = calculatePreviewOrientation(mCameraInfo, mDisplayOrientation);
         mCamera.setDisplayOrientation(orientation);
 
@@ -271,6 +277,9 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
      * 안드로이드 디바이스 방향에 맞는 카메라 프리뷰를 화면에 보여주기 위해 계산합니다.
      */
     public static int calculatePreviewOrientation(Camera.CameraInfo info, int rotation) {
+
+
+
         int degrees = 0;
 
         switch (rotation) {
@@ -300,29 +309,44 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
     }
 
 
+
+
+
+
+
     boolean flashlight() {
+
+
+
         if (isopenCamera) {
 
             mFlashOn = !mFlashOn;
-            Camera.Parameters params = mCamera.getParameters();
 
-            if (mFlashOn) {
+            if(mCamera.getParameters() != null){
+                Camera.Parameters params = mCamera.getParameters();
 
-                params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                if (mFlashOn) {
 
-                mCamera.setParameters(params);
+                    params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 
-                return true;
+                    mCamera.setParameters(params);
 
-            } else {
+                    return true;
 
-                params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                } else {
 
-                mCamera.setParameters(params);
+                    params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 
+                    mCamera.setParameters(params);
+
+                    return false;
+                }
+            }else{
                 return false;
-
             }
+
+
+
         } else {
             delayedFinish();
             return false;
@@ -330,29 +354,42 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
     }
 
     void zoomIn(){
-        Camera.Parameters parameters = mCamera.getParameters();
 
-        zoomSize += parameters.getMaxZoom()/5;
 
-        if(parameters.getMaxZoom() < zoomSize) {
-            zoomSize = parameters.getMaxZoom();
+        if (mCamera.getParameters() != null) {
+
+            Camera.Parameters parameters = mCamera.getParameters();
+
+            zoomSize += parameters.getMaxZoom()/5;
+
+            if(parameters.getMaxZoom() < zoomSize) {
+                zoomSize = parameters.getMaxZoom();
+            }
+
+            parameters.set("zoom", zoomSize);
+            mCamera.setParameters(parameters);
+
         }
 
-        parameters.set("zoom", zoomSize);
-        mCamera.setParameters(parameters);
     }
 
-    void zoomOut(){
-        Camera.Parameters parameters = mCamera.getParameters();
-        zoomSize -= parameters.getMaxZoom()/5;
+    void zoomOut() {
 
-        if(0 > zoomSize) {
-            zoomSize = 0;
+        if (mCamera.getParameters() != null) {
+            Camera.Parameters parameters = mCamera.getParameters();
+            zoomSize -= parameters.getMaxZoom() / 5;
+
+            if (0 > zoomSize) {
+                zoomSize = 0;
+            }
+
+            parameters.set("zoom", zoomSize);
+            mCamera.setParameters(parameters);
+
         }
 
-        parameters.set("zoom", zoomSize);
-        mCamera.setParameters(parameters);
     }
+
 
     void setAutoFocus(){
         mCamera.autoFocus(new Camera.AutoFocusCallback(){ // 오토 포커스 설정
