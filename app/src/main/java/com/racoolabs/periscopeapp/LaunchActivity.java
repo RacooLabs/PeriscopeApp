@@ -33,11 +33,12 @@ public class LaunchActivity extends AppCompatActivity {
 
                 //퍼미션 허가 안되어있다면 사용자에게 요청
                 requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST_CODE);
+
             }else{
+
 //                Intent mainIntent = new Intent(LaunchActivity.this, MainActivity.class);
 //                startActivity(mainIntent);
 //                finish();
-
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -52,11 +53,9 @@ public class LaunchActivity extends AppCompatActivity {
 
             }
 
-
         }
 
     }
-
 
 
     // 여기서부터는 퍼미션 관련 코드입니다.
@@ -64,6 +63,7 @@ public class LaunchActivity extends AppCompatActivity {
     String[] PERMISSIONS  = {Manifest.permission.CAMERA}; // 카메라만 쓸거라서 STRORAGE 퍼미션은 manifest에서도 그렇고 여기서도 알아서 잘 삭제했습니다요.
 
     private boolean hasPermissions(String[] permissions) {
+
         int result;
 
         //스트링 배열에 있는 퍼미션들의 허가 상태 여부 확인
@@ -75,10 +75,12 @@ public class LaunchActivity extends AppCompatActivity {
                 //허가 안된 퍼미션 발견
                 return false;
             }
+
         }
 
         //모든 퍼미션이 허가되었음
         return true;
+
     }
 
 
@@ -86,6 +88,7 @@ public class LaunchActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         switch(requestCode){
@@ -119,14 +122,10 @@ public class LaunchActivity extends AppCompatActivity {
         builder.setCancelable(false);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id){
-                requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST_CODE);
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
                 finish();
             }
         });
+
         builder.create().show();
     }
 }

@@ -6,6 +6,7 @@ import android.view.SurfaceHolder;
 import android.view.ViewGroup;
 
 import java.io.IOException;
+import java.security.Policy;
 import java.util.List;
 
 
@@ -14,13 +15,11 @@ import android.hardware.Camera;
 import android.hardware.Camera.Size;
 
 
-import android.util.Log;
 import android.view.Surface;
 
 import android.view.SurfaceView;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 
 public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
@@ -47,16 +46,8 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
 
 
 
-
-
-
-
     public CameraPreview(Context context, AppCompatActivity activity, int cameraID, SurfaceView surfaceView) {
         super(context);
-
-
-        Log.d("@@@", "Preview");
-
 
 
         mActivity = activity;
@@ -133,7 +124,7 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
             isopenCamera = true;// attempt to get a Camera instance
         } catch (Exception e) {
             // Camera is not available (in use or does not exist)
-            Log.e(TAG, "Camera " + mCameraID + " is not available: " + e.getMessage());
+
             isopenCamera = false;
         }
 
@@ -147,7 +138,6 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
 
         int orientation = calculatePreviewOrientation(mCameraInfo, mDisplayOrientation);
         mCamera.setDisplayOrientation(orientation);
-
 
 
         mSupportedPreviewSizes =  mCamera.getParameters().getSupportedPreviewSizes();
@@ -173,14 +163,11 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
 
             mCamera.setPreviewDisplay(holder);
 
-
             // Important: Call startPreview() to start updating the preview
             // surface. Preview must be started before you can take a picture.
             mCamera.startPreview();
             isPreview = true;
-            Log.d(TAG, "Camera preview started.");
         } catch (IOException e) {
-            Log.d(TAG, "Error setting camera preview: " + e.getMessage());
         }
 
     }
@@ -243,7 +230,6 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
 
         if (mHolder.getSurface() == null) {
             // preview surface does not exist
-            Log.d(TAG, "Preview surface does not exist");
             return;
         }
 
@@ -251,10 +237,8 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
         // stop preview before making changes
         try {
             mCamera.stopPreview();
-            Log.d(TAG, "Preview stopped.");
         } catch (Exception e) {
-            // ignore: tried to stop a non-existent preview
-            Log.d(TAG, "Error starting camera preview: " + e.getMessage());
+
         }
 
 
@@ -264,9 +248,7 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
         try {
             mCamera.setPreviewDisplay(mHolder);
             mCamera.startPreview();
-            Log.d(TAG, "Camera preview started.");
         } catch (Exception e) {
-            Log.d(TAG, "Error starting camera preview: " + e.getMessage());
         }
 
     }
@@ -277,7 +259,6 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
      * 안드로이드 디바이스 방향에 맞는 카메라 프리뷰를 화면에 보여주기 위해 계산합니다.
      */
     public static int calculatePreviewOrientation(Camera.CameraInfo info, int rotation) {
-
 
 
         int degrees = 0;
@@ -316,41 +297,48 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
 
     boolean flashlight() {
 
+        try{
 
+            if (isopenCamera) {
 
-        if (isopenCamera) {
+                mFlashOn = !mFlashOn;
 
-            mFlashOn = !mFlashOn;
+                if(mCamera.getParameters() != null){
+                    Camera.Parameters params = mCamera.getParameters();
 
-            if(mCamera.getParameters() != null){
-                Camera.Parameters params = mCamera.getParameters();
+                    if (mFlashOn) {
 
-                if (mFlashOn) {
+                        params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 
-                    params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                        mCamera.setParameters(params);
 
-                    mCamera.setParameters(params);
+                        return true;
 
-                    return true;
+                    } else {
 
-                } else {
+                        params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 
-                    params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                        mCamera.setParameters(params);
 
-                    mCamera.setParameters(params);
-
+                        return false;
+                    }
+                }else{
                     return false;
                 }
-            }else{
+
+            } else {
+                delayedFinish();
                 return false;
             }
 
 
+        }catch (Exception e){
 
-        } else {
             delayedFinish();
             return false;
+
         }
+
     }
 
     void zoomIn(){
@@ -392,12 +380,28 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
 
 
     void setAutoFocus(){
-        mCamera.autoFocus(new Camera.AutoFocusCallback(){ // 오토 포커스 설정
-            @Override
-            public void onAutoFocus(boolean success, Camera camera) {
-                return;
+
+        if(mCamera==null) {
+
+            try {
+                mCamera = Camera.open();
+                isopenCamera = true;// attempt to get a Camera instance
+            } catch (Exception e) {
+                // Camera is not available (in use or does not exist)
+                isopenCamera = false;
             }
-        });
+
+        }else{
+
+            mCamera.autoFocus(new Camera.AutoFocusCallback(){ // 오토 포커스 설정
+                @Override
+                public void onAutoFocus(boolean success, Camera camera) {
+                    return;
+                }
+            });
+
+        }
+
     }
 
     private void delayedFinish() {
@@ -406,7 +410,7 @@ public class CameraPreview extends ViewGroup implements SurfaceHolder.Callback{
             public void run() {
                 mActivity.finish();
             }
-        }, 3000);
+        }, 1000);
 
     }
 
